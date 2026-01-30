@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
 
 export default function Admin() {
+
     const navigate = useNavigate()
     const [isAdmin, setIsAdmin] = useState(false)
 
@@ -11,6 +12,7 @@ export default function Admin() {
     const [capacity, setCapacity] = useState(8)
 
     useEffect(() => {
+        console.log('odapala sie to w ogole?')
         checkAdmin()
     }, [])
 
@@ -19,9 +21,10 @@ export default function Admin() {
             .from('profiles')
             .select('role')
             .single()
-
+        
+        console.log(data);
         if (data?.role !== 'admin') {
-            navigate('/')
+             navigate('/dashboard')
         } else {
             setIsAdmin(true)
         }

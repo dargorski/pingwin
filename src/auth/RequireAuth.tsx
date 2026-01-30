@@ -7,14 +7,14 @@ export default function RequireAuth() {
     const [authenticated, setAuthenticated] = useState(false)
 
     useEffect(() => {
-        supabase.auth.getSession().then(({ data }) => {
+        supabase.auth.getSession().then(({data}) => {
             setAuthenticated(!!data.session)
             setLoading(false)
         })
     }, [])
 
     if (loading) return null
-    if (!authenticated) return <Navigate to="/login" />
+    if (!authenticated) return <Navigate to="/login"/>
 
-    return <Outlet />
+    return <Outlet/>
 }

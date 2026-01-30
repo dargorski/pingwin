@@ -13,10 +13,12 @@ export default function Dashboard() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
+        console.log('dashboard')
         loadClasses()
     }, [])
 
     const loadClasses = async () => {
+        console.log('load classes')
         const { data, error } = await supabase
             .from('classes')
             .select('*')
