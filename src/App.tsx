@@ -14,7 +14,7 @@ export default function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
                 <Route element={<RequireAuth />}>
-                <Route path="/adminpanel" element={<Admin />} />
+                <Route path="/admin" element={<Admin />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 </Route>
             </Routes>

@@ -1,22 +1,24 @@
-﻿import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
-
-type Class = {
-    id: string
-    title: string
-    starts_at: string
-    capacity: number
-}
+﻿import {useEffect, useState} from 'react'
+import {supabase} from '../lib/supabase'
+import type {Class} from "../Models/Class.tsx";
+import type {Signup} from "../Models/Signup.tsx";
+import {SignupItem} from "./SignupItem.tsx";
 
 export default function Dashboard() {
     const [classes, setClasses] = useState<Class[]>([])
+    const [signups, setSignups] = useState<Signup[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         console.log('dashboard')
-        loadClasses()
+        initializeData();
     }, [])
 
+    const initializeData = async () => {
+        await loadClasses();
+        await loadSignups();
+        setLoading(false);
+    }
     const loadClasses = async () => {
         console.log('load classes')
         const { data, error } = await supabase
@@ -27,20 +29,22 @@ export default function Dashboard() {
         if (!error && data) {
             setClasses(data)
         }
-        setLoading(false)
+    }
+    
+    const loadSignups = async () => {
+        const { data, error } = await supabase
+            .from('signups')
+            .select('*');
+
+        if (!error && data) {
+            setSignups(data)
+        }
     }
 
     const signUp = async (classId: string) => {
-        // docelowo: supabase.rpc('book_class', { p_class_id: classId })
-        const { error } = await supabase
-            .from('signups')
-            .insert({ class_id: classId })
-
-        if (error) {
-            alert(error.message)
-        } else {
-            alert('Zapisano na zajęcia')
-        }
+        await supabase.rpc('book_class', { p_class_id: classId }).then((result) => {
+            console.log(result)
+        })
     }
 
     if (loading) return <p>Ładowanie…</p>
@@ -62,6 +66,13 @@ export default function Dashboard() {
                         </button>
                     </li>
                 ))}
+            </ul>
+
+            <h1>Zajęcia na ktore jestem zapisany</h1>
+            {signups.length === 0 && <p>Nie jestes zapisany na zadne zajecia</p>}
+            
+            <ul>
+                {signups.map(signup => <SignupItem signup={signup} classList={classes} />)}
             </ul>
         </div>
     )
