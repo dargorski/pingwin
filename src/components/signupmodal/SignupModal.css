@@ -1,0 +1,46 @@
+﻿.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    width: 320px;
+    text-align: center;
+}
+
+.modal h2 {
+    margin-bottom: 12px;
+}
+
+.signup-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #1e88e5;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.signup-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.close-btn {
+    margin-top: 12px;
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+}

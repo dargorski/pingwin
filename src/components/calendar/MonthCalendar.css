@@ -1,0 +1,76 @@
+﻿.calendar-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    @media (min-width: 768px) {
+        padding-top: 24px;
+    }
+}
+
+.calendar {
+    width: 100%;
+    max-width: 560px;
+}
+
+.calendar-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: 8px;
+}
+
+.calendar-header-cell {
+    text-align: center;
+    font-weight: 600;
+    color: #6b7c93;
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+}
+
+.calendar-cell {
+    height: 56px;
+    background: #eef3f9;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s ease;
+    
+    @media (max-width: 768px) {
+        height: 48px;
+    }
+}
+
+.calendar-cell:hover {
+    transform: scale(1.05);
+}
+
+.calendar-cell.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-cell.active {
+    background: #8fb3cf;
+    color: white;
+}
+
+.calendar-cell.full {
+    background: #e74c3c;
+    color: white;
+}
+
+.calendar-cell.already-signed {
+    background: green;
+    color: white;
+}
+
+.day-number {
+    font-weight: 700;
+    font-size: 18px;
+}

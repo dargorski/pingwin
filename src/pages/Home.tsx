@@ -8,8 +8,6 @@ const Home = () => {
     useEffect(() => {
         supabase.auth.getSession().then(({ data }) => {
             if (!data.session) {
-
-                console.log('navigate to admin');
                 navigate('/login')
             }
         })
