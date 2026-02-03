@@ -17,16 +17,21 @@ export default function Dashboard() {
     useEffect(() => {
         initializeData();
     }, [])
+    
+    useEffect(() => {
+        loadSignups();
+    }, [classes]);
 
     const initializeData = async () => {
         await loadClasses();
-        await loadSignups();
-        setLoading(false);
     }
+    
     const loadClasses = async () => {
         const {data, error} = await supabase
             .from('classes')
             .select('*')
+            .lte('starts_at', '2026-03-31')
+            .gte('starts_at', '2026-03-01')
             .order('starts_at', {ascending: true})
 
         if (!error && data) {
@@ -37,12 +42,13 @@ export default function Dashboard() {
     const loadSignups = async () => {
         const {data, error} = await supabase
             .from('signups')
-            .select('*');
+            .select('*')
+            .in('class_id', [classes.map(x => x.id)]);
 
         if (!error && data) {
-            console.log(data);
             setSignups(data)
         }
+        setLoading(false);
     }
 
     const handleSignup = async (classId: string) => {
