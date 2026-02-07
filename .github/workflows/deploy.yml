@@ -18,10 +18,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+ 
+      - uses: supabase/setup-cli@v1
+        with: { version: latest }
 
       - run: npm ci
       - run: CI='' npm run build && cp ./dist/index.html ./dist/404.html # THE FIX
-
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
+      - run: |
+          supabase link --project-ref ${{ secrets.TEST_PROJECT_ID_SUPABASE }}
+          supabase db push
+    
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
