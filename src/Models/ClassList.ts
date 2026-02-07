@@ -10,12 +10,18 @@ export class ClassList {
         makeAutoObservable(this);
     }
     
-    public getClassList() {
-        return this.classList;
+    public addToSignupList(classId: string) {
+        this.signupList.push({id: '', class_id: classId} as Signup);
     }
     
-    public getSignupList() {
-        return this.signupList;
+    public removeFromSignupList(classId: string) {
+        const signup = this.signupList.find(s => s.class_id === classId);
+        if (signup) {
+            const index = this.signupList.indexOf(signup);
+            if (index > -1) {
+                this.signupList.splice(index, 1);
+            }
+        }
     }
 
     public initializeData = async () => {

@@ -32,13 +32,25 @@
     cursor: pointer;
 }
 
+.remove-signup-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
 .signup-btn:disabled {
     background: #ccc;
     cursor: not-allowed;
 }
 
 .close-btn {
-    margin-top: 12px;
+    margin-top: 24px;
     background: none;
     border: none;
     color: #555;
@@ -92,4 +104,45 @@
         transform: scale(1);
         opacity: 1;
     }
+}
+
+.info-box {
+    background: #eef5fb;
+    padding: 12px;
+    border-radius: 8px;
+    color: #0b3a5a;
+    font-weight: 600;
+}
+
+.title-info-box {
+    border-radius: 8px;
+    padding: 4px;
+    color: #0b3a5a;
+    font-weight: 600;
+}
+
+/* przycisk wypisu */
+.danger-btn {
+    width: 100%;
+    margin-top: 16px;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    background: #e74c3c;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.danger-btn:hover {
+    background: #c0392b;
+}
+
+.signup-item {
+}
+
+.classes-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }

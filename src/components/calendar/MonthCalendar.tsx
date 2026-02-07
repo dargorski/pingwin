@@ -1,15 +1,18 @@
 ﻿import './MonthCalendar.css'
 import type {Class} from "../../Models/Class.tsx";
 import {dateWithHackXd} from "./utils.ts";
+import {useContext} from "react";
+import {AppContext} from "../../AppContext.ts";
+import {observer} from "mobx-react";
 
 type MonthCalendarProps = {
     year: number
     month: number // 0-11 (JS Date)
     onDayClick?: (date: string) => void;
-    classes: Class[];
 }
 
-export const MonthCalendar = (props: MonthCalendarProps) => {
+export const MonthCalendar = observer((props: MonthCalendarProps) => {
+    const app = useContext(AppContext);
     const firstDay = new Date(props.year, props.month, 1);
     const lastDay = new Date(props.year, props.month + 1, 0);
 
@@ -24,7 +27,7 @@ export const MonthCalendar = (props: MonthCalendarProps) => {
 
     for (let d = 1; d <= totalDays; d++) {
         const date = dateWithHackXd(new Date(props.year, props.month, d));
-        const classDate = props.classes.find(x => x.starts_at.slice(0, 10) === date);
+        const classDate = app.classes.classList.find(x => x.starts_at.slice(0, 10) === date);
 
         cells.push(
             classDate ?? {
@@ -59,6 +62,9 @@ export const MonthCalendar = (props: MonthCalendarProps) => {
                         let className = 'calendar-cell'
                         if (isFull) className += ' full'
                         else if (hasTraining) className += ' active'
+                        const signedUp = app.classes.signupList.some(s => s.class_id === cell.id);
+                        
+                        if (signedUp) className += ' already-signed';
 
                         return (
                             <div
@@ -76,4 +82,4 @@ export const MonthCalendar = (props: MonthCalendarProps) => {
             </div>
         </div>
     )
-}
+});
