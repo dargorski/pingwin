@@ -22,7 +22,7 @@ export const Navbar = ({ title }: NavbarProps) => {
         <header className="navbar">
             <div className="navbar-left">
                 <img
-                    src="/pingwin.jpg"
+                    src="/pingwin/pingwin.jpg"
                     alt="PingWin"
                     className="navbar-logo"
                 />

@@ -2,7 +2,7 @@
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
-const Home = () => {
+export const Home = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -16,5 +16,3 @@ const Home = () => {
     return <div>Strona glowna</div>
 
 }
-
-export default Home;
