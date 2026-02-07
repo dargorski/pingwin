@@ -20,7 +20,7 @@ jobs:
           node-version: 20
 
       - run: npm ci
-      - run: npm run build
+      - run: CI='' npm run build && cp ./dist/index.html ./dist/404.html # THE FIX
 
       - uses: actions/upload-pages-artifact@v3
         with:
