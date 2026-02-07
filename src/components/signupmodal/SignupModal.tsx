@@ -1,6 +1,7 @@
 ﻿import './SignupModal.css'
 import type {Class} from "../../Models/Class.tsx";
 import type {Signup} from "../../Models/Signup.tsx";
+import {useState} from "react";
 
 type Props = {
     open: boolean
@@ -15,10 +16,12 @@ export const SignupModal = ({
                                 onClose,
                                 classItem,
                                 onSignup,
-    signups
+                                signups
                             }: Props) => {
+    
+    const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle')
+
     if (!open || !classItem) return null
-    console.log(signups);
 
     const isFull = classItem.taken_slots >= classItem.capacity
 
@@ -28,39 +31,52 @@ export const SignupModal = ({
         day: 'numeric',
         month: 'long',
     })
-    
-    const alreadySigned = signups.find(s => s.class_id === classItem.id);
+
+    //const alreadySigned = signups.find(s => s.class_id === classItem.id);
+
+    const handleSignup = async () => {
+        setStatus('loading')
+        await onSignup(classItem.id!)
+        setStatus('success')
+
+        setTimeout(() => {
+            setStatus('idle')
+            onClose()
+        }, 1200)
+    }
+
 
     return (
         <div className="modal-backdrop" onClick={onClose}>
-            <div
-                className="modal"
-                onClick={(e) => e.stopPropagation()}
-            >
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
                 <h2>{formattedDate}</h2>
 
-                {classItem.capacity > 0 ? (
+                {status === 'idle' && (
                     <>
                         <p>
                             Miejsca: {classItem.taken_slots} / {classItem.capacity}
                         </p>
 
-                        {alreadySigned ? (<p>Miejsce już dla Ciebie zarezerwowane :)</p>) : (<button
+                        <button
                             className="signup-btn"
                             disabled={isFull}
-                            onClick={() => onSignup(classItem.id!)}
+                            onClick={handleSignup}
                         >
                             {isFull ? 'Brak miejsc' : 'Zapisz się'}
-                        </button>)}
-                        
+                        </button>
                     </>
-                ) : (
-                    <p>Brak zajęć w tym dniu</p>
                 )}
 
-                <button className="close-btn" onClick={onClose}>
-                    Zamknij
-                </button>
+                {status === 'loading' && (
+                    <div className="loader" />
+                )}
+
+                {status === 'success' && (
+                    <div className="success">
+                        <div className="checkmark">✓</div>
+                        <p>Zapisano!</p>
+                    </div>
+                )}
             </div>
         </div>
     )
