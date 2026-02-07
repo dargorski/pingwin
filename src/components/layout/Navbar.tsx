@@ -13,6 +13,10 @@ export const Navbar = ({ title }: NavbarProps) => {
         await supabase.auth.signOut()
         navigate('/login')
     }
+    
+    const handleAdmin = () => {
+        navigate('/admin')
+    }
 
     return (
         <header className="navbar">
@@ -26,6 +30,11 @@ export const Navbar = ({ title }: NavbarProps) => {
 
             <div className="navbar-center">
                 <h1>{title}</h1>
+            </div>
+            <div className="navbar-right">
+                <button onClick={handleAdmin} className="logout-btn">
+                    Admin
+                </button>
             </div>
 
             <div className="navbar-right">
