@@ -1,10 +1,6 @@
 ﻿.calendar-wrapper {
     display: flex;
     justify-content: center;
-    padding: 12px;
-    @media (min-width: 768px) {
-        padding-top: 24px;
-    }
 }
 
 .calendar {

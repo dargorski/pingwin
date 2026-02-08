@@ -1,11 +1,12 @@
-﻿import {useContext, useEffect, useState} from 'react'
-import {supabase} from '../lib/supabase'
-import type {Class} from "../Models/Class.tsx";
-import {MonthCalendar} from "../components/calendar/MonthCalendar.tsx";
-import {SignupModal} from "../components/signupmodal/SignupModal.tsx";
-import {SignupItem} from "./SignupItem.tsx";
-import {AppContext} from "../AppContext.ts";
+﻿import './Dashboard.css';
+import {useContext, useEffect, useState} from 'react'
 import { observer } from 'mobx-react';
+import {AppContext} from "../../AppContext.ts";
+import { supabase } from '../../lib/supabase.ts';
+import { MonthCalendar } from '../../components/calendar/MonthCalendar.tsx';
+import {UserStatusCards} from "../../components/UserStatusCards/UserStatusCards.tsx";
+import {SignupModal} from "../../components/signupmodal/SignupModal.tsx";
+import type {Class} from "../../Models/Class.tsx";
 
 export const Dashboard = observer(()=> {
     const app = useContext(AppContext);
@@ -46,8 +47,9 @@ export const Dashboard = observer(()=> {
         <>
         {
             loading ? (<div>Loading</div>) : (
-                <>
+                <div className="dashboard-wrapper">
                     <MonthCalendar year={2026} month={2} onDayClick={handleDayClick}/>
+                    <UserStatusCards amountDue={300} isPaid={true}/>
                     <SignupModal
                         isVisible={modalOpen}
                         classes={selectedClasses}
@@ -55,18 +57,7 @@ export const Dashboard = observer(()=> {
                         onSignup={handleSignup}
                         onUnsignup={handleUnsignup}
                     />
-
-                    <div>
-
-                        <h1>Zajęcia na ktore jestem zapisany</h1>
-                        {app.classes.signupList.length === 0 && <p>Nie jestes zapisany na zadne zajecia</p>}
-
-                        <ul>
-                            {app.classes.signupList.map(signup => <SignupItem signup={signup}
-                                                                              classList={app.classes.classList}/>)}
-                        </ul>
-                    </div>
-                </>)
+                </div>)
         }
         </>
     )

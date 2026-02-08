@@ -1,0 +1,10 @@
+﻿.dashboard-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    padding: 12px;
+    
+    @media (min-width: 768px) {
+        padding: 24px;
+    }
+}

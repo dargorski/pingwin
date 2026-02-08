@@ -8,9 +8,10 @@ import Register from "./auth/Register.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";
 import Admin from "./pages/Admin.tsx";
 import {App} from "./App.ts";
-import {Dashboard} from "./pages/Dashboard.tsx";
+
 import { AppContext } from './AppContext.ts';
 import {Home} from "./pages/Home.tsx";
+import {Dashboard} from "./pages/Dashboard/Dashboard.tsx";
 
 const app = new App();
 

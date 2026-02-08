@@ -23,6 +23,11 @@ export class ClassList {
             }
         }
     }
+    
+    public getNextClass = () => {
+        const classes = this.classList.filter(c => this.signupList.some(s => s.class_id === c.id));
+        return classes.filter(c => new Date(c.starts_at) > new Date())[0];
+    }
 
     public initializeData = async () => {
         await this.loadClasses().then(() => this.loadSignups());
