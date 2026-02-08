@@ -32,8 +32,8 @@ export const MonthCalendar = observer((props: MonthCalendarProps) => {
         cells.push(
             classDate ?? {
                 starts_at: date,
-                capacity: 0,
-                taken_slots: 0,
+                capacity: 0
+                //taken_slots: 0,
             }
         )
     }
@@ -55,13 +55,13 @@ export const MonthCalendar = observer((props: MonthCalendarProps) => {
                             return <div key={idx} className="calendar-cell empty"/>
                         }
 
-                        const isFull =
-                            cell.capacity > 0 && cell.taken_slots >= cell.capacity
-                        const hasTraining = cell.capacity > 0
+                        // const isFull =
+                        //     cell.capacity > 0 && cell. >= cell.capacity
+                        const hasTraining = cell.capacity > 0;
 
-                        let className = 'calendar-cell'
-                        if (isFull) className += ' full'
-                        else if (hasTraining) className += ' active'
+                        let className = 'calendar-cell';
+                        // if (isFull) className += ' full'
+                        if (hasTraining) className += ' active';
                         const signedUp = app.classes.signupList.some(s => s.class_id === cell.id);
                         
                         if (signedUp) className += ' already-signed';

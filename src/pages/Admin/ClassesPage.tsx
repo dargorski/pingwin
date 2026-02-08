@@ -77,7 +77,7 @@ export const ClassesPage = () => {
                                 {!c.cancelled && (
                                     <button
                                         onClick={async () => {
-                                            await updateClass(c.id, { cancelled: true })
+                                            await updateClass(c.id!, { cancelled: true })
                                             load()
                                         }}
                                     >
