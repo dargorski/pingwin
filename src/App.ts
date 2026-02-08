@@ -3,6 +3,7 @@ import {ClassList} from "./Models/ClassList.ts";
 
 export class App {
     public async initialize()  {
+        
     this.classes = new ClassList();
 }
     

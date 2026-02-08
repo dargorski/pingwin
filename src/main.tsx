@@ -12,29 +12,34 @@ import {Home} from "./pages/Home.tsx";
 import {AdminPage} from "./pages/Admin/AdminPage.tsx";
 import {UserPage} from "./pages/User/UserPage.tsx";
 import {PublicPage} from "./pages/Public/PublicPage.tsx";
+import {AppLoader} from "./components/ui/AppLoader.tsx";
 
 const app = new App();
 
-app.initialize().then(() => {
-    createRoot(document.getElementById('root')!).render(
-        <StrictMode>
-            <AppContext.Provider value={app}>
-            <BrowserRouter basename={'/pingwin'}>
-                <Routes>
-                    <Route element={<PublicPage />}>
-                        <Route index element={<Home />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/register" element={<Register />} />
-                    </Route>
-                    <Route element={<RequireAuth />}>
-                        <Route path="/admin/*" element={<AdminPage />} />
-                        <Route path="/dashboard/*" element={<UserPage />} />
-                    </Route>
-                </Routes>
-            </BrowserRouter>
-            </AppContext.Provider>
-        </StrictMode>,
-    )
-})
+createRoot(document.getElementById('root')!).render(<AppLoader />);
+setTimeout(() => {
+    app.initialize().then(() => {
+        createRoot(document.getElementById('root')!).render(
+            <StrictMode>
+                <AppContext.Provider value={app}>
+                    <BrowserRouter basename={'/pingwin'}>
+                        <Routes>
+                            <Route element={<PublicPage />}>
+                                <Route index element={<Home />} />
+                                <Route path="/login" element={<Login />} />
+                                <Route path="/register" element={<Register />} />
+                            </Route>
+                            <Route element={<RequireAuth />}>
+                                <Route path="/admin/*" element={<AdminPage />} />
+                                <Route path="/dashboard/*" element={<UserPage />} />
+                            </Route>
+                        </Routes>
+                    </BrowserRouter>
+                </AppContext.Provider>
+            </StrictMode>,
+        )
+    })
+}, 1500)
+
 
 
