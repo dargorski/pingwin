@@ -1,7 +1,9 @@
 ﻿export type Class = {
     id?: string
-    title?: string
+    title: string | null
+    training_type_id: string | null
     starts_at: string
     capacity: number
-    taken_slots: number;
+    price_override: number | null
+    cancelled: boolean
 }

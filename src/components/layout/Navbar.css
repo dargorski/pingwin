@@ -55,3 +55,7 @@
 .logout-btn:hover {
     background: #c0392b;
 }
+
+.navbar-left :hover {
+    cursor: pointer;
+}

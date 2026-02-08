@@ -1,4 +1,4 @@
-﻿import { useNavigate } from 'react-router-dom'
+﻿import {useNavigate} from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import './Navbar.css'
 
@@ -20,7 +20,7 @@ export const Navbar = ({ title }: NavbarProps) => {
 
     return (
         <header className="navbar">
-            <div className="navbar-left">
+            <div className="navbar-left" onClick={() => navigate('/')}>
                 <img
                     src="/pingwin/pingwin.jpg"
                     alt="PingWin"

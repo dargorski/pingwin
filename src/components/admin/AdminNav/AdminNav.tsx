@@ -13,6 +13,11 @@ export const AdminNav = () => {
                     ☰
                 </button>
                 <span className="topbar-title">Admin Panel</span>
+                <img
+                    src="/pingwin/pingwin.jpg"
+                    alt="PingWin"
+                    className="admin-navbar-logo"
+                />
             </div>
 
             {/* Backdrop */}

@@ -3,7 +3,7 @@ import type {ReactNode} from "react";
 
 export const UserLayout = ({ children }: { children: ReactNode }) => {
     return (
-        <div className="admin-layout">
+        <div>
             <Navbar title={'Marzec 2026'}/>
             <main>{children}</main>
         </div>
