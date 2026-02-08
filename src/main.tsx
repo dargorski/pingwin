@@ -28,7 +28,7 @@ app.initialize().then(() => {
                     </Route>
                     <Route element={<RequireAuth />}>
                         <Route path="/admin/*" element={<AdminPage />} />
-                        <Route path="/dashboard" element={<UserPage />} />
+                        <Route path="/dashboard/*" element={<UserPage />} />
                     </Route>
                 </Routes>
             </BrowserRouter>

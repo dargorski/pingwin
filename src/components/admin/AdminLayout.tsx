@@ -1,6 +1,6 @@
 ﻿import type {ReactNode} from 'react'
-import { AdminNav } from './AdminNav'
 import './admin.css'
+import {AdminNav} from "./AdminNav/AdminNav.tsx";
 
 export const AdminLayout = ({ children }: { children: ReactNode }) => {
     return (
