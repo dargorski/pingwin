@@ -2,7 +2,6 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import {Navbar} from "./components/layout/Navbar.tsx";
 import Login from "./auth/Login.tsx";
 import Register from "./auth/Register.tsx";
 import RequireAuth from "./auth/RequireAuth.tsx";

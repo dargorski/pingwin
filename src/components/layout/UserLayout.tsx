@@ -1,5 +1,5 @@
 ﻿import {Navbar} from "./Navbar.tsx";
-import {ReactNode} from "react";
+import type {ReactNode} from "react";
 
 export const UserLayout = ({ children }: { children: ReactNode }) => {
     return (
