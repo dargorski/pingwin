@@ -2,12 +2,18 @@
 import { getClasses, createClass, updateClass } from '../../services/classes'
 import type {Class} from "../../Models/Class.tsx";
 import {ClassModal} from "../../components/admin/ClassModal.tsx";
+import type {Signup} from "../../Models/Signup.tsx";
+import {getClassDetails} from "../../services/classDetails.ts";
+import {ClassDetailsDrawer} from "../../components/admin/ClassDetailsDrawer/ClassDetailsDrawer.tsx";
 
 export const ClassesPage = () => {
     const [classes, setClasses] = useState<Class[]>([])
     const [loading, setLoading] = useState(true)
     const [modalOpen, setModalOpen] = useState(false)
     const [editing, setEditing] = useState<Class | null>(null)
+    const [drawerOpen, setDrawerOpen] = useState(false)
+    const [selectedClass, setSelectedClass] = useState<Class | null>(null)
+    const [signups, setSignups] = useState<Signup[]>([])
 
     const load = async () => {
         setLoading(true)
@@ -28,6 +34,11 @@ export const ClassesPage = () => {
         setModalOpen(false)
         setEditing(null)
         load()
+    }
+    const openDetails = async (c: Class) => {
+        setSelectedClass(c)
+        setDrawerOpen(true)
+        setSignups(await getClassDetails(c.id!))
     }
 
     return (
@@ -84,6 +95,9 @@ export const ClassesPage = () => {
                                         Anuluj
                                     </button>
                                 )}
+                                <button onClick={() => openDetails(c)}>
+                                    Szczegóły
+                                </button>
                             </td>
                         </tr>
                     ))}
@@ -99,6 +113,14 @@ export const ClassesPage = () => {
                     setEditing(null)
                 }}
                 onSave={handleSave}
+            />
+            <ClassDetailsDrawer
+                open={drawerOpen}
+                classItem={selectedClass}
+                signups={signups}
+                onClose={() => setDrawerOpen(false)}
+                onMove={(s) => console.log('move', s)}
+                onRemove={(s) => console.log('remove', s)}
             />
         </>
     )

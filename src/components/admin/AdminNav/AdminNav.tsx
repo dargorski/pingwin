@@ -37,10 +37,6 @@ export const AdminNav = () => {
                 </div>
 
                 <nav className="admin-nav-links">
-                    <NavLink to="/admin/training-types" onClick={() => setOpen(false)}>
-                        🏷️ Rodzaje treningów
-                    </NavLink>
-
                     <NavLink to="/admin/classes" onClick={() => setOpen(false)}>
                         📅 Treningi
                     </NavLink>
@@ -48,6 +44,11 @@ export const AdminNav = () => {
                     <NavLink to="/admin/payments" onClick={() => setOpen(false)}>
                         💳 Rozliczenia
                     </NavLink>
+
+                    <NavLink to="/admin/training-types" onClick={() => setOpen(false)}>
+                        🏷️ Rodzaje treningów
+                    </NavLink>
+
                 </nav>
 
                 <div className="admin-nav-footer">
