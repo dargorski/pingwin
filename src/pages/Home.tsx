@@ -1,5 +1,5 @@
 ﻿import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import {Navigate, useNavigate} from 'react-router-dom'
 import { supabase } from '../lib/supabase'
 
 export const Home = () => {
@@ -12,7 +12,6 @@ export const Home = () => {
             }
         })
     })
-
-    return <div>Strona glowna</div>
+    return <Navigate to={'/dashboard'}/>
 
 }

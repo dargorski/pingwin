@@ -20,19 +20,13 @@ export const SignupModal = (props: Props) => {
         day: 'numeric',
         month: 'long',
     })
-    
-    const closeModal = () => {
-        console.log('close modal');
-        console.log(props);
-        props.onClose();
-    }
 
     return (
         <div className="modal-backdrop" onClick={props.onClose}>
             <div className="modal info" onClick={(e) => e.stopPropagation()}>
                 <h2>{formattedDate}</h2>
                 <div className="classes-wrapper">{props.classes.map((item) => <SignupClassModalItem selectedClass={item} onSignup={props.onSignup} onUnsignup={props.onUnsignup} />)}</div>
-                <button className="close-btn" onClick={() => closeModal()}>
+                <button className="close-btn" onClick={props.onClose}>
                     Zamknij
                 </button>
             </div>

@@ -1,8 +1,8 @@
 ﻿import { useEffect, useState } from 'react'
-import { supabase } from '../lib/supabase'
 import { useNavigate } from 'react-router-dom'
+import {supabase} from "../../lib/supabase.ts";
 
-export default function Admin() {
+export const Admin = ()=> {
 
     const navigate = useNavigate()
     const [isAdmin, setIsAdmin] = useState(false)

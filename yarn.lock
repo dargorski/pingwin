@@ -1783,10 +1783,10 @@ strip-outer@^1.0.1:
   dependencies:
     escape-string-regexp "^1.0.2"
 
-supabase@^2.76.3:
-  version "2.76.3"
-  resolved "https://registry.npmjs.org/supabase/-/supabase-2.76.3.tgz"
-  integrity sha512-xJLyTiPo0WfBwHvNeLcDhyV+A0qyo/VfzL0lijXbvPL0QCY5+aLoiSwJqLempMynMvhq4Hl9EGL00B2LYmvpmQ==
+supabase@^2.76.4:
+  version "2.76.4"
+  resolved "https://registry.npmjs.org/supabase/-/supabase-2.76.4.tgz"
+  integrity sha512-zpiC6awtf2lqo7+oBwTQ53BJuQ8nM5nkNUxesLcS3BmLta3D/Ln3L/7Hqbj2P0FgnmdOyIJg1fmtglQH4B46LA==
   dependencies:
     bin-links "^6.0.0"
     https-proxy-agent "^7.0.2"

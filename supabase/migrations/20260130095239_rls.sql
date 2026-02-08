@@ -1,75 +1,128 @@
--- 4️⃣ Włącz RLS
-alter table profiles enable row level security;
-alter table classes enable row level security;
-alter table signups enable row level security;
-
-create policy "user reads own profile"
-on profiles for select
-using (auth.uid() = id);
-
--- INSERT: trigger wstawia profil, pozwalamy na insert
-create policy "allow insert by trigger"
-on profiles for insert
-with check (true);
-
--- UPDATE / DELETE: tylko admin może update/delete swojego profilu (lub przez service_role)
-create policy "admin updates profiles"
-on profiles for update
-using (role = 'admin' and auth.uid() = id);
-
-create policy "admin deletes profiles"
-on profiles for delete
-using (role = 'admin' and auth.uid() = id);
-
--- 6️⃣ Polityki classes
-
--- SELECT: każdy widzi klasy
-create policy "everyone reads classes"
-on classes for select
-                          using (true);
-
-create function is_admin()
-    returns boolean
-    language plpgsql
-security definer -- will run as the creator
+create or replace function public.is_admin()
+returns boolean
+language plpgsql
+security definer
 as $$
 begin
 return exists (
-    select * from profiles
-    where (select auth.uid()) = id and role = 'admin'
-    limit 1
+    select 1
+    from profiles
+    where id = auth.uid()
+      and role = 'admin'
 );
 end;
 $$;
 
-create policy "admin inserts classes"
-on classes for insert
-    with check ( (select is_admin()) );
+alter table profiles enable row level security;
+
+create policy "profiles_select_own"
+on profiles for select
+using (auth.uid() = id);
+
+create policy "profiles_insert_trigger"
+on profiles for insert
+with check (true);
        
-create policy "admin updates classes"
+create policy "profiles_admin_update"
+on profiles for update
+using (is_admin());
+
+create policy "profiles_admin_delete"
+on profiles for delete
+using (is_admin());
+
+alter table training_types enable row level security;
+
+create policy "training_types_select_all"
+on training_types for select
+using (true);
+
+create policy "training_types_admin_write"
+on training_types for insert
+with check (is_admin());
+
+create policy "training_types_admin_update"
+on training_types for update
+using (is_admin());
+
+create policy "training_types_admin_delete"
+on training_types for delete
+using (is_admin());
+
+alter table classes enable row level security;
+
+create policy "classes_select_all"
+on classes for select
+using (true);
+
+create policy "classes_admin_write"
+on classes for insert
+with check (is_admin());
+
+create policy "classes_admin_update"
 on classes for update
-    with check ( (select is_admin()) );
-              
-create policy "admin deletes classes"
+using (is_admin());
+
+create policy "classes_admin_delete"
 on classes for delete
-    using ( (select is_admin()) );
+using (is_admin());
 
--- 7️⃣ Polityki signups
+alter table signups enable row level security;
 
--- INSERT: user zapisuje siebie na zajęcia
-create policy "user inserts own signup"
+create policy "signups_select_own"
+on signups for select
+using (auth.uid() = user_id);
+
+create policy "signups_insert_rpc"
 on signups for insert
 with check (auth.uid() = user_id);
        
-create policy "user updates own signup"
-on signups for update
-with check (auth.uid() = user_id);
-
-create policy "user removes own signup"
+create policy "signups_delete_rpc"
 on signups for delete
 using (auth.uid() = user_id);
 
--- SELECT: user widzi swoje zapisy
-create policy "user reads own signups"
-on signups for select
-using (auth.uid() = user_id);
+create policy "signups_admin_update"
+on signups for update
+using (is_admin());
+
+alter table payments enable row level security;
+
+create policy "payments_select_owner_or_admin"
+on payments for select
+using (
+auth.uid() = user_id
+or is_admin()
+);
+
+create policy "payments_admin_update"
+on payments for update
+using (is_admin());
+
+create policy "payments_admin_write"
+on payments for insert
+with check (is_admin());
+
+alter table payment_items enable row level security;
+
+create policy "payment_items_admin_only"
+on payment_items for select
+using (is_admin());
+
+
+create policy "payment_items_admin_insert"
+on payment_items for insert
+with check (is_admin());
+
+create policy "payment_items_admin_delete"
+on payment_items for delete
+using (is_admin());
+
+alter table audit_logs enable row level security;
+
+create policy "audit_insert"
+on audit_logs for insert
+with check (true);
+       
+create policy "audit_select_admin"
+on audit_logs for select
+using (is_admin());
