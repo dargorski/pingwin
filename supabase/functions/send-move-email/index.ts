@@ -1,49 +1,46 @@
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { Resend } from "https://esm.sh/resend@2.0.0";
+import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
+import { Resend } from 'https://esm.sh/resend@2.0.0';
 
-const resend = new Resend(Deno.env.get("RESEND_API_KEY")!);
+const resend = new Resend(Deno.env.get('RESEND_API_KEY')!);
 
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type'
 };
 
 serve(async (req) => {
-  // 🔥 obsługa preflight
-  if (req.method === "OPTIONS") {
-    return new Response("ok", { headers: corsHeaders });
-  }
+    if (req.method === 'OPTIONS') {
+        return new Response('ok', { headers: corsHeaders });
+    }
 
-  try {
-    const { email, oldDate, newDate } = await req.json();
+    try {
+        const body = await req.json();
+        console.log('BODY:', body);
 
-    await resend.emails.send({
-      from: "Pingwin TT <onboarding@resend.dev>",
-      to: email,
-      subject: "Zmiana terminu treningu",
-      html: `
-        <h2>Zmiana terminu treningu 🏓</h2>
-        <p>Zostałeś przeniesiony z:</p>
-        <strong>${oldDate}</strong>
-        <p>Na:</p>
-        <strong>${newDate}</strong>
-      `,
-    });
+        const result = await resend.emails.send({
+            from: 'onboarding@resend.dev', // 🔥 tylko tak na test
+            to: body.email,
+            subject: 'Test',
+            html: '<p>Test</p>'
+        });
 
-    return new Response(JSON.stringify({ success: true }), {
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "application/json",
-      },
-    });
-  } catch (err) {
-    return new Response(JSON.stringify({ error: err.message }), {
-      status: 500,
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "application/json",
-      },
-    });
-  }
+        console.log('RESEND RESULT:', result);
+
+        return new Response(JSON.stringify({ success: true }), {
+            headers: {
+                ...corsHeaders,
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (err) {
+        console.error('ERROR:', err);
+
+        return new Response(JSON.stringify({ error: String(err) }), {
+            status: 500,
+            headers: {
+                ...corsHeaders,
+                'Content-Type': 'application/json'
+            }
+        });
+    }
 });
