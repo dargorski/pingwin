@@ -46,8 +46,13 @@ export const MovePlayerModal = ({ open, signupId, currentDate, userEmail, onClos
 
             console.log('ACCESS TOKEN', session?.access_token);
 
-            const { data, error } = await supabase.functions.invoke('send-move-email', { body: { test: true } });
-
+            const { data, error } = await supabase.functions.invoke('send-move-email', {
+                body: JSON.stringify({
+                    email: userEmail,
+                    oldDate: new Date(currentDate).toLocaleString(),
+                    newDate: new Date(newClass.starts_at).toLocaleString()
+                })
+            });
             console.log(data, error);
         };
         await test();
