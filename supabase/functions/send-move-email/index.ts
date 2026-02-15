@@ -25,6 +25,7 @@ serve(async (req) => {
         });
 
         console.log('RESEND RESULT:', result);
+        console.log('RESEND RESULT:', result);
 
         return new Response(JSON.stringify({ success: true }), {
             headers: {
