@@ -8,7 +8,7 @@ export const AdminPage = () => {
     return (
         <AdminLayout>
             <Routes>
-                <Route path="/" element={<Navigate to="training-types" />} />
+                <Route path="/" element={<Navigate to="classes" />} />
                 <Route path="training-types" element={<TrainingTypesPage />} />
                 <Route path="classes" element={<ClassesPage />} />
                 <Route path="payments" element={<PaymentsPage />} />

@@ -1,6 +1,8 @@
 ﻿import './ClassDetailsDrawer.css'
 import type {Signup} from "../../../Models/Signup.tsx";
 import type {Class} from "../../../Models/Class.tsx";
+import {MovePlayerModal} from "../MovePlayerModal.tsx";
+import { useState } from 'react';
 
 type Props = {
     open: boolean
@@ -20,6 +22,8 @@ export const ClassDetailsDrawer = ({
                                        onRemove,
                                    }: Props) => {
     if (!open || !classItem) return null
+    
+    const [movePlayerModalOpen, setMovePlayerModalOpen] = useState(false);
 
     return (
         <>
@@ -61,7 +65,7 @@ export const ClassDetailsDrawer = ({
                                 </div>
 
                                 <div className="actions">
-                                    <button onClick={() => onMove(s)}>
+                                    <button onClick={() => setMovePlayerModalOpen(true)}>
                                         Przenieś
                                     </button>
                                     <button
@@ -71,11 +75,14 @@ export const ClassDetailsDrawer = ({
                                         Usuń
                                     </button>
                                 </div>
+                                <MovePlayerModal open={movePlayerModalOpen} signupId={s.id} currentDate={new Date().toLocaleString()} userEmail={s.email} onClose={() => setMovePlayerModalOpen(false)} reload={() => console.log('reload')}/>
                             </li>
+                            
                         ))}
                     </ul>
                 </div>
             </aside>
+            
         </>
     )
 }
