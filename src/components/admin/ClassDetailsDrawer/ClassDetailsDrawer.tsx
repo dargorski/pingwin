@@ -75,7 +75,7 @@ export const ClassDetailsDrawer = ({
                                         Usuń
                                     </button>
                                 </div>
-                                <MovePlayerModal open={movePlayerModalOpen} signupId={s.id} currentDate={new Date().toLocaleString()} userEmail={s.email} onClose={() => setMovePlayerModalOpen(false)} reload={() => console.log('reload')}/>
+                                <MovePlayerModal open={movePlayerModalOpen} signupId={s.id} currentDate={new Date().toLocaleString()} userEmail={s.email} onClose={() => setMovePlayerModalOpen(false)} reload={onMove}/>
                             </li>
                             
                         ))}

@@ -119,7 +119,7 @@ export const ClassesPage = () => {
                 classItem={selectedClass}
                 signups={signups}
                 onClose={() => setDrawerOpen(false)}
-                onMove={(s) => console.log('move', s)}
+                onMove={() => load()}
                 onRemove={(s) => console.log('remove', s)}
             />
         </>

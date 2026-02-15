@@ -50,7 +50,8 @@ export class ClassList {
         const {data, error} = await supabase
             .from('signups')
             .select('*')
-            .in('class_id', [this.classList.map(x => x.id)]);
+            .in('class_id', [this.classList.map(x => x.id)])
+            .eq('status', 'active');
 
         if (!error && data) {
             this.signupList = data;
