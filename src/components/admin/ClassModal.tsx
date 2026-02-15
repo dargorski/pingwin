@@ -5,7 +5,7 @@ type Props = {
     open: boolean
     initial?: Class | null
     onClose: () => void
-    onSave: (data: Partial<Class>) => void
+    onSave: (data: Class) => void
 }
 
 export const ClassModal = ({ open, initial, onClose, onSave }: Props) => {

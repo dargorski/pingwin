@@ -3,13 +3,14 @@ import './admin.css'
 import {AdminNav} from "./AdminNav/AdminNav.tsx";
 import {supabase} from "../../lib/supabase.ts";
 import { useNavigate } from 'react-router-dom';
+import {observer} from "mobx-react";
 
-export const AdminLayout = ({ children }: { children: ReactNode }) => {
+export const AdminLayout = observer(({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
     const [isAdmin, setIsAdmin] = useState(false)
     
     useEffect(() => {
-        checkAdmin()
+        checkAdmin();
     }, []);
 
     const checkAdmin = async () => {
@@ -30,7 +31,8 @@ export const AdminLayout = ({ children }: { children: ReactNode }) => {
     return (
         <div className="admin-layout">
             <AdminNav />
-            <main className="admin-content">{children}</main>
+                <main className="admin-content">{children}</main>
+            
         </div>
     )
-}
+});

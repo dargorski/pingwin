@@ -1,46 +1,36 @@
-﻿import { useEffect, useState } from 'react'
-import { getClasses, createClass, updateClass } from '../../services/classes'
+﻿import {useContext, useState} from 'react'
+import { updateClass } from '../../services/classes'
 import type {Class} from "../../Models/Class.tsx";
 import {ClassModal} from "../../components/admin/ClassModal.tsx";
 import type {Signup} from "../../Models/Signup.tsx";
 import {getClassDetails} from "../../services/classDetails.ts";
 import {ClassDetailsDrawer} from "../../components/admin/ClassDetailsDrawer/ClassDetailsDrawer.tsx";
+import {observer} from "mobx-react";
+import {AdminContext} from "./AdminContext.ts";
 
-export const ClassesPage = () => {
-    const [classes, setClasses] = useState<Class[]>([])
-    const [loading, setLoading] = useState(true)
+export const ClassesPage = observer(() => {
+    const admin = useContext(AdminContext);
     const [modalOpen, setModalOpen] = useState(false)
     const [editing, setEditing] = useState<Class | null>(null)
     const [drawerOpen, setDrawerOpen] = useState(false)
     const [selectedClass, setSelectedClass] = useState<Class | null>(null)
     const [signups, setSignups] = useState<Signup[]>([])
 
-    const load = async () => {
-        setLoading(true)
-        setClasses(await getClasses())
-        setLoading(false)
-    }
-
-    useEffect(() => {
-        load()
-    }, [])
-
-    const handleSave = async (data: Partial<Class>) => {
+    const handleSave = async (data: Class) => {
         if (editing) {
             await updateClass(editing.id!, data)
         } else {
-            await createClass(data)
+            await admin.adminClasses.createClass(data);
+            
         }
         setModalOpen(false)
         setEditing(null)
-        load()
     }
     const openDetails = async (c: Class) => {
         setSelectedClass(c)
         setDrawerOpen(true)
         setSignups(await getClassDetails(c.id!))
     }
-
     return (
         <>
             <header className="admin-header">
@@ -48,9 +38,6 @@ export const ClassesPage = () => {
                 <button onClick={() => setModalOpen(true)}>+ Dodaj trening</button>
             </header>
 
-            {loading ? (
-                <p>Ładowanie…</p>
-            ) : (
                 <table className="admin-table">
                     <thead>
                     <tr>
@@ -62,7 +49,7 @@ export const ClassesPage = () => {
                     </tr>
                     </thead>
                     <tbody>
-                    {classes.map((c) => (
+                    {admin.adminClasses.classes.map((c) => (
                         <tr key={c.id}>
                             <td>
                                 {new Date(c.starts_at).toLocaleString('pl-PL', {
@@ -89,7 +76,6 @@ export const ClassesPage = () => {
                                     <button
                                         onClick={async () => {
                                             await updateClass(c.id!, { cancelled: true })
-                                            load()
                                         }}
                                     >
                                         Anuluj
@@ -103,7 +89,7 @@ export const ClassesPage = () => {
                     ))}
                     </tbody>
                 </table>
-            )}
+
 
             <ClassModal
                 open={modalOpen}
@@ -119,9 +105,9 @@ export const ClassesPage = () => {
                 classItem={selectedClass}
                 signups={signups}
                 onClose={() => setDrawerOpen(false)}
-                onMove={() => load()}
+                onMove={() => console.log('move')}
                 onRemove={(s) => console.log('remove', s)}
             />
         </>
     )
-}
+});

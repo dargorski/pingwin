@@ -46,21 +46,26 @@ export const MovePlayerModal = ({
 
         const newClass = classes.find(c => c.id === selected)
 
-        await fetch(
-            `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-move-email`,
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-                },
-                body: JSON.stringify({
-                    email: userEmail,
-                    oldDate: new Date(currentDate).toLocaleString(),
-                    newDate: new Date(newClass.starts_at).toLocaleString(),
-                }),
-            }
-        )
+        await supabase.functions.invoke('send-move-email', {body: JSON.stringify({
+                email: userEmail,
+                oldDate: new Date(currentDate).toLocaleString(),
+                newDate: new Date(newClass.starts_at).toLocaleString(),
+            })});
+        // await fetch(
+        //     `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-move-email`,
+        //     {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        //         },
+        //         body: JSON.stringify({
+        //             email: userEmail,
+        //             oldDate: new Date(currentDate).toLocaleString(),
+        //             newDate: new Date(newClass.starts_at).toLocaleString(),
+        //         }),
+        //     }
+        // )
 
         setLoading(false)
         reload()
