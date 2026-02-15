@@ -39,14 +39,18 @@ export const MovePlayerModal = ({ open, signupId, currentDate, userEmail, onClos
 
         const newClass = classes.find((c) => c.id === selected);
 
-        const { data, error } = await supabase.functions.invoke('send-move-email', {
-            body: JSON.stringify({
-                email: userEmail,
-                oldDate: new Date(currentDate).toLocaleString(),
-                newDate: new Date(newClass.starts_at).toLocaleString()
-            })
-        });
-        console.log(data, error);
+        const test = async () => {
+            const {
+                data: { session }
+            } = await supabase.auth.getSession();
+
+            console.log('ACCESS TOKEN', session?.access_token);
+
+            const { data, error } = await supabase.functions.invoke('send-move-email', { body: { test: true } });
+
+            console.log(data, error);
+        };
+        await test();
         // await fetch(
         //     `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/send-move-email`,
         //     {
