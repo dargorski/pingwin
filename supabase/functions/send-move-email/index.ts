@@ -9,23 +9,26 @@ const corsHeaders = {
 };
 
 serve(async (req) => {
+    // 🔥 obsługa preflight
     if (req.method === 'OPTIONS') {
         return new Response('ok', { headers: corsHeaders });
     }
 
     try {
-        const body = await req.json();
-        console.log('BODY:', body);
+        const { email, oldDate, newDate } = await req.json();
 
-        const result = await resend.emails.send({
-            from: 'onboarding@resend.dev', // 🔥 tylko tak na test
-            to: body.email,
-            subject: 'Test',
-            html: '<p>Test</p>'
+        await resend.emails.send({
+            from: 'Pingwin TT <team@kspingwin.pl>',
+            to: email,
+            subject: 'Zmiana terminu treningu',
+            html: `
+        <h2>Zmiana terminu treningu 🏓</h2>
+        <p>Zostałeś przeniesiony z:</p>
+        <strong>${oldDate}</strong>
+        <p>Na:</p>
+        <strong>${newDate}</strong>
+      `
         });
-
-        console.log('RESEND RESULT:', result);
-        console.log('RESEND RESULT:', result);
 
         return new Response(JSON.stringify({ success: true }), {
             headers: {
@@ -34,9 +37,7 @@ serve(async (req) => {
             }
         });
     } catch (err) {
-        console.error('ERROR:', err);
-
-        return new Response(JSON.stringify({ error: String(err) }), {
+        return new Response(JSON.stringify({ error: err.message }), {
             status: 500,
             headers: {
                 ...corsHeaders,

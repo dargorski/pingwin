@@ -43,19 +43,20 @@ create table signups (
 create table payments (
                           id uuid primary key default gen_random_uuid(),
                           user_id uuid references profiles(id) on delete cascade,
-                          period date not null, -- 2026-03-01
-                          total_amount numeric(10,2) not null default 0,
+                          period_start date not null,
+                          period_end date not null,
+                          total_amount numeric(10,2) not null,
                           paid boolean default false,
                           paid_at timestamptz,
                           created_at timestamptz default now(),
-                          unique (user_id, period)
+                          unique (user_id, period_start, period_end)
 );
 
 create table payment_items (
                                id uuid primary key default gen_random_uuid(),
                                payment_id uuid references payments(id) on delete cascade,
                                class_id uuid references classes(id),
-                               price numeric(10,2) not null,
+                               amount numeric(10,2) not null,
                                created_at timestamptz default now()
 );
 
