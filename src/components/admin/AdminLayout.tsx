@@ -1,38 +1,30 @@
-﻿import {type ReactNode, useEffect, useState} from 'react'
-import './admin.css'
-import {AdminNav} from "./AdminNav/AdminNav.tsx";
-import {supabase} from "../../lib/supabase.ts";
+﻿import { type ReactNode, useContext, useEffect } from 'react';
+import './admin.css';
+import { AdminNav } from './AdminNav/AdminNav.tsx';
 import { useNavigate } from 'react-router-dom';
-import {observer} from "mobx-react";
+import { observer } from 'mobx-react';
+import { AppContext } from '../../AppContext.ts';
 
 export const AdminLayout = observer(({ children }: { children: ReactNode }) => {
     const navigate = useNavigate();
-    const [isAdmin, setIsAdmin] = useState(false)
-    
+    const app = useContext(AppContext);
+
     useEffect(() => {
-        checkAdmin();
+        if (!app.userInfo.IsAdmin) {
+            app.userInfo.setAdmin().then(() => checkAdmin());
+        }
     }, []);
 
     const checkAdmin = async () => {
-        const { data } = await supabase
-            .from('profiles')
-            .select('role')
-            .single()
+        if (!app.userInfo.IsAdmin) navigate('/dashboard');
+    };
 
-        if (data?.role !== 'admin') {
-            navigate('/dashboard')
-        } else {
-            setIsAdmin(true)
-        }
-    }
-    
-    if (!isAdmin) return null;
-    
+    if (!app.userInfo.IsAdmin) return null;
+
     return (
         <div className="admin-layout">
             <AdminNav />
-                <main className="admin-content">{children}</main>
-            
+            <main className="admin-content">{children}</main>
         </div>
-    )
+    );
 });

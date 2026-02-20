@@ -1,0 +1,98 @@
+﻿.payments-page {
+    padding: 16px;
+}
+
+/* header */
+.payments-header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.period-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.period-controls select,
+.period-controls button {
+    padding: 8px;
+    border-radius: 6px;
+}
+
+/* mobile cards */
+.payments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-card {
+    background: white;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.payment-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.payment-name {
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.payment-amount {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0b3a5a;
+}
+
+.payment-status {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.payment-status.paid {
+    background: #e6f7ed;
+    color: #1b7f4b;
+}
+
+.payment-status.unpaid {
+    background: #fdecea;
+    color: #b42318;
+}
+
+.mark-paid {
+    background: #0b3a5a;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* desktop layout */
+@media (min-width: 768px) {
+
+    .payments-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .payments-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 16px;
+    }
+}

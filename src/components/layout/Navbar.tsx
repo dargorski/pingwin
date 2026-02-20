@@ -1,47 +1,49 @@
-﻿import {useNavigate} from 'react-router-dom'
-import { supabase } from '../../lib/supabase'
-import './Navbar.css'
+﻿import { useNavigate } from 'react-router-dom';
+import { supabase } from '../../lib/supabase';
+import './Navbar.css';
+import { CalendarHeader } from './CalendarHeader.tsx';
+import { useContext } from 'react';
+import { AppContext } from '../../AppContext.ts';
 
-type NavbarProps = {
-    title: string;
+interface NavbarProps {
+    showCalendarHeader?: boolean;
 }
 
-export const Navbar = ({ title }: NavbarProps) => {
-    const navigate = useNavigate()
+export const Navbar = (props: NavbarProps) => {
+    const navigate = useNavigate();
+    const app = useContext(AppContext);
 
     const handleLogout = async () => {
-        await supabase.auth.signOut()
-        navigate('/login')
-    }
-    
+        await supabase.auth.signOut();
+        app.userInfo.reset();
+        navigate('/login');
+    };
+
     const handleAdmin = () => {
-        navigate('/admin')
-    }
+        navigate('/admin');
+    };
 
     return (
         <header className="navbar">
             <div className="navbar-left" onClick={() => navigate('/')}>
-                <img
-                    src="/pingwin/pingwin.jpg"
-                    alt="PingWin"
-                    className="navbar-logo"
-                />
+                <img src="/pingwin/pingwin.jpg" alt="PingWin" className="navbar-logo" />
             </div>
 
-            <div className="navbar-center">
-                <h1>{title}</h1>
-            </div>
-            <div className="navbar-right">
-                <button onClick={handleAdmin} className="logout-btn">
-                    Admin
-                </button>
-            </div>
-
-            <div className="navbar-right">
-                <button onClick={handleLogout} className="logout-btn">
-                    Wyloguj
-                </button>
-            </div>
+            {props.showCalendarHeader && <CalendarHeader />}
+            {app.userInfo.IsAdmin && (
+                <div className="navbar-right">
+                    <button onClick={handleAdmin} className="logout-btn">
+                        Admin
+                    </button>
+                </div>
+            )}
+            {app.userInfo.IsAuthenticated && (
+                <div className="navbar-right">
+                    <button onClick={handleLogout} className="logout-btn">
+                        Wyloguj
+                    </button>
+                </div>
+            )}
         </header>
-    )
-}
+    );
+};
