@@ -21,7 +21,11 @@
 
 .admin-content {
     flex: 1;
-    padding: 24px;
+    padding: 12px;
+    
+    @media (min-width: 768px) {
+        padding: 24px;
+    }
 }
 
 .admin-header {

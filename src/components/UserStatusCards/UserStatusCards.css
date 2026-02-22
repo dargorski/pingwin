@@ -26,6 +26,7 @@
 }
 
 .payment-status {
+    width: max-content;
     margin-top: 6px;
     font-weight: 600;
 }

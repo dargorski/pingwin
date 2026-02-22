@@ -1,0 +1,8 @@
+﻿.UserLayout {
+    background: #f1f7fb;
+    padding: 24px 12px 12px;
+    
+    @media (min-width: 768px) {
+        padding: 80px 24px 24px;
+    }
+}
