@@ -6,7 +6,7 @@ import { currentDateKey } from './consts.ts';
 
 export class App {
     public async initialize() {
-        this.classes = new ClassList();
+        this.classes = new ClassList(this);
         this.userInfo = new UserInfo(this);
 
         await this.initializeCurrentDate();

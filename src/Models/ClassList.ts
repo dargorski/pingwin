@@ -2,11 +2,14 @@
 import type { Class } from './Class.tsx';
 import { supabase } from '../lib/supabase.ts';
 import type { Signup } from './Signup.tsx';
+import type { App } from '../App.ts';
 
 export class ClassList {
     public classList: Class[] = [];
     public signupList: Signup[] = [];
-    constructor() {
+    private _app: App;
+    constructor(app: App) {
+        this._app = app;
         makeAutoObservable(this);
     }
 
@@ -51,7 +54,8 @@ export class ClassList {
             .from('signups')
             .select('*')
             .in('class_id', [this.classList.map((x) => x.id)])
-            .eq('status', 'active');
+            .eq('status', 'active')
+            .eq('user_id', `${this._app.userInfo.UserId}`);
 
         if (!error && data) {
             this.signupList = data;
