@@ -3,10 +3,13 @@ import type { Class, ExtendedClass } from '../../../Models/Class';
 import { createClass, getClasses } from '../../../services/classes.ts';
 import type { Signup } from '../../../Models/Signup.tsx';
 import { getSignups } from '../../../services/signups.ts';
+import type { TrainingType } from '../../../Models/TrainingType.tsx';
+import { getTrainingTypes } from '../../../services/trainingTypes.ts';
 
 export class AdminClass {
     public classes: ExtendedClass[] = [];
     public signups: Signup[] = [];
+    public trainingTypes: TrainingType[] = [];
     public loading = true;
 
     constructor() {
@@ -17,6 +20,8 @@ export class AdminClass {
         await getSignups().then((result) => (this.signups = result));
 
         await getClasses().then((classes) => this.extendClasses(classes));
+
+        await getTrainingTypes().then((result) => (this.trainingTypes = result));
         this.loading = false;
     }
 

@@ -123,6 +123,7 @@ export const ClassesPage = observer(() => {
                             setEditing(null);
                         }}
                         onSave={handleSave}
+                        trainingTypes={admin?.adminClasses?.trainingTypes}
                     />
                     <ClassDetailsDrawer
                         open={drawerOpen}
