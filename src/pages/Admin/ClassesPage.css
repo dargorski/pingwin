@@ -1,0 +1,131 @@
+﻿.classes-controls {
+    display: flex;
+    gap: 10px;
+    padding: 16px;
+}
+
+.classes-controls select {
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+.classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 16px;
+    padding: 16px;
+}
+
+.class-card {
+    background: white;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    transition: 0.2s ease;
+}
+
+.class-card:hover {
+    transform: translateY(-3px);
+}
+
+.class-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.class-date {
+    font-size: 13px;
+    color: #6b7280;
+}
+
+.class-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.status-badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.status-badge.active {
+    background: #e6f7ed;
+    color: #1b7f4b;
+}
+
+.status-badge.cancelled {
+    background: #fdecea;
+    color: #b42318;
+}
+
+.class-capacity {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.capacity-text {
+    font-size: 14px;
+    cursor: help;
+}
+
+.progress-bar {
+    height: 8px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #0b3a5a, #1e88e5);
+    transition: width 0.3s ease;
+}
+
+.progress-fill.full {
+    background: #b42318;
+}
+
+.price-info {
+    font-size: 14px;
+    color: #0b3a5a;
+    font-weight: 500;
+}
+
+.class-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.add-class-button {
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    background: white;
+    height: max-content;
+}
+
+.class-actions button {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: none;
+    background: #f3f4f6;
+    cursor: pointer;
+}
+
+.class-actions button:hover {
+    background: #e5e7eb;
+}
+
+.class-actions .danger {
+    background: #fdecea;
+    color: #b42318;
+}

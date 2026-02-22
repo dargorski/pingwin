@@ -1,16 +1,29 @@
 ﻿import { makeAutoObservable } from 'mobx';
-import type { Class } from '../../../Models/Class';
+import type { Class, ExtendedClass } from '../../../Models/Class';
 import { createClass, getClasses } from '../../../services/classes.ts';
+import type { Signup } from '../../../Models/Signup.tsx';
+import { getSignups } from '../../../services/signups.ts';
 
 export class AdminClass {
-    public classes: Class[] = [];
+    public classes: ExtendedClass[] = [];
+    public signups: Signup[] = [];
 
     constructor() {
         makeAutoObservable(this);
     }
 
     public async initializeData() {
-        this.classes = await getClasses().then((classes) => (this.classes = classes));
+        await getSignups().then((result) => (this.signups = result));
+
+        await getClasses().then((classes) => this.extendClasses(classes));
+    }
+
+    private extendClasses(classes: Class[]) {
+        this.classes =
+            (classes?.map((c: Class) => ({
+                ...c,
+                taken_slots: this.signups.filter((s) => s.class_id === c.id).length
+            })) as unknown as ExtendedClass[]) ?? [];
     }
 
     public async createClass(payload: Class) {
