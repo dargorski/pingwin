@@ -1,9 +1,10 @@
-﻿import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
-import './AdminNav.css'
+﻿import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import './AdminNav.css';
 
 export const AdminNav = () => {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
+    console.log('admin nav');
 
     return (
         <>
@@ -13,11 +14,7 @@ export const AdminNav = () => {
                     ☰
                 </button>
                 <span className="topbar-title">Admin Panel</span>
-                <img
-                    src="/pingwin/pingwin.jpg"
-                    alt="PingWin"
-                    className="admin-navbar-logo"
-                />
+                <img src="/pingwin/pingwin.jpg" alt="PingWin" className="admin-navbar-logo" />
             </div>
 
             {/* Backdrop */}
@@ -26,11 +23,7 @@ export const AdminNav = () => {
             {/* Sidebar */}
             <aside className={`admin-nav ${open ? 'open' : ''}`}>
                 <div className="admin-nav-header">
-                    <img
-                        src="/pingwin/pingwin.jpg"
-                        alt="PingWin"
-                        className="admin-navbar-logo"
-                    />
+                    <img src="/pingwin/pingwin.jpg" alt="PingWin" className="admin-navbar-logo" />
                     <div>
                         <div className="title">Admin Panel</div>
                     </div>
@@ -48,7 +41,6 @@ export const AdminNav = () => {
                     <NavLink to="/admin/training-types" onClick={() => setOpen(false)}>
                         🏷️ Rodzaje treningów
                     </NavLink>
-
                 </nav>
 
                 <div className="admin-nav-footer">
@@ -58,5 +50,5 @@ export const AdminNav = () => {
                 </div>
             </aside>
         </>
-    )
-}
+    );
+};

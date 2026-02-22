@@ -21,7 +21,7 @@ export const ClassesPage = observer(() => {
     const [year, setYear] = useState(today.getFullYear());
     const [month, setMonth] = useState(today.getMonth());
 
-    const classes = admin.adminClasses.classes.filter(
+    const classes = admin.adminClasses?.classes.filter(
         (c) => new Date(c.starts_at) < new Date(year, month + 1, 0) && new Date(c.starts_at) > new Date(year, month, 1)
     );
 
@@ -41,7 +41,7 @@ export const ClassesPage = observer(() => {
     };
 
     return (
-        <>
+        <div>
             {admin.loading ? (
                 <AppLoader />
             ) : (
@@ -134,6 +134,6 @@ export const ClassesPage = observer(() => {
                     />
                 </>
             )}
-        </>
+        </div>
     );
 });

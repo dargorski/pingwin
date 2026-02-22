@@ -47,7 +47,6 @@ export class UserInfo {
 
     private async getUserPayment() {
         const { data } = await supabase.from('payments').select('*').eq('period_start', `${this._app.current_period_start}`).eq('user_id', `${this.UserId}`);
-        console.log(data);
         if (data && (data[0] as unknown as Payment)) {
             this.Payment = (data[0] ?? []) as unknown as Payment;
         } else {

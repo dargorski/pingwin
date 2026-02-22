@@ -9,7 +9,7 @@ export class App {
         this.classes = new ClassList();
         this.userInfo = new UserInfo(this);
 
-        this.initializeCurrentDate();
+        await this.initializeCurrentDate();
     }
 
     constructor() {
@@ -41,12 +41,9 @@ export class App {
     public currentMonth!: number;
     public initializing = false;
 
-    private initializeCurrentDate() {
+    private async initializeCurrentDate() {
         const storedCurrentDate = sessionStorage.getItem(currentDateKey);
         this.currentDate = storedCurrentDate ? new Date(storedCurrentDate) : new Date();
-        this.current_period_start = dateWithHackXd(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth(), 1));
-        this.current_period_end = dateWithHackXd(new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1, 0));
-        this.currentYear = this.currentDate.getFullYear();
-        this.currentMonth = this.currentDate.getMonth();
+        await this.setCurrentDate(this.currentDate);
     }
 }

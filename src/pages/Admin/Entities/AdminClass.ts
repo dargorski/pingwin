@@ -7,6 +7,7 @@ import { getSignups } from '../../../services/signups.ts';
 export class AdminClass {
     public classes: ExtendedClass[] = [];
     public signups: Signup[] = [];
+    public loading = true;
 
     constructor() {
         makeAutoObservable(this);
@@ -16,6 +17,14 @@ export class AdminClass {
         await getSignups().then((result) => (this.signups = result));
 
         await getClasses().then((classes) => this.extendClasses(classes));
+        this.loading = false;
+    }
+
+    public async createClass(payload: Class) {
+        await createClass(payload).then(() => {
+            this.classes.push(payload);
+            this.classes.sort((a, b) => new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime());
+        });
     }
 
     private extendClasses(classes: Class[]) {
@@ -24,12 +33,5 @@ export class AdminClass {
                 ...c,
                 taken_slots: this.signups.filter((s) => s.class_id === c.id).length
             })) as unknown as ExtendedClass[]) ?? [];
-    }
-
-    public async createClass(payload: Class) {
-        await createClass(payload).then(() => {
-            this.classes.push(payload);
-            this.classes.sort((a, b) => new Date(a.starts_at).getTime() - new Date(b.starts_at).getTime());
-        });
     }
 }
