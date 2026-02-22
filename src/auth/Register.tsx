@@ -1,65 +1,76 @@
-﻿import { useState } from 'react'
-import { supabase } from '../lib/supabase'
-import { Link, useNavigate } from 'react-router-dom'
+﻿import { useState } from 'react';
+import { supabase } from '../lib/supabase';
+import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
 
 export default function Register() {
-    const navigate = useNavigate()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [error, setError] = useState<string | null>(null)
+    const navigate = useNavigate();
+
+    const [fullName, setFullName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault()
-        setLoading(true)
-        setError(null)
+        e.preventDefault();
+        setLoading(true);
+        setError(null);
 
-        const test = await supabase.auth.signUp({
-            email,
-            password,
-        });
+        try {
+            if (!fullName || !email || !password) {
+                setError('Uzupełnij wszystkie pola');
+                return;
+            }
 
-        setLoading(false)
+            const { data, error } = await supabase.auth.signUp({
+                email,
+                password
+            });
 
-        if (test.error) {
-            setError(test.error?.message)
-            return
+            if (error) throw error;
+            if (!data.user) throw new Error('Nie udało się utworzyć użytkownika');
+
+            // 🔥 TYLKO UPDATE (bo trigger już zrobił insert)
+            const { error: updateError } = await supabase.from('profiles').update({ full_name: fullName }).eq('id', data.user.id);
+
+            if (updateError) {
+                console.log(updateError);
+                throw updateError;
+            }
+
+            navigate('/dashboard');
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
         }
-
-        navigate('/dashboard')
-    }
+    };
 
     return (
-        <div>
-            <h1>Rejestracja</h1>
+        <div className="login-wrapper">
+            <div className="login-card">
+                <h1 className="login-title">PingWin</h1>
+                <p className="login-subtitle">Utwórz konto</p>
 
-            <form onSubmit={handleRegister}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
-                />
+                {error && <div className="login-error">{error}</div>}
 
-                <input
-                    type="password"
-                    placeholder="Hasło"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    required
-                />
+                <form onSubmit={handleRegister} style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
+                    <input className="login-input" type="text" placeholder="Imię i nazwisko" value={fullName} onChange={(e) => setFullName(e.target.value)} />
 
-                <button disabled={loading}>
-                    {loading ? 'Rejestruję…' : 'Zarejestruj się'}
-                </button>
+                    <input className="login-input" type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
 
-                {error && <p style={{ color: 'red' }}>{error}</p>}
-            </form>
+                    <input className="login-input" type="password" placeholder="Hasło" value={password} onChange={(e) => setPassword(e.target.value)} />
 
-            <p>
-                Masz konto? <Link to="/login">Zaloguj się</Link>
-            </p>
+                    <button className="login-button" disabled={loading}>
+                        {loading ? 'Rejestruję...' : 'Zarejestruj się'}
+                    </button>
+                </form>
+
+                <p className="login-footer">
+                    Masz konto? <Link to="/login">Zaloguj się</Link>
+                </p>
+            </div>
         </div>
-    )
+    );
 }

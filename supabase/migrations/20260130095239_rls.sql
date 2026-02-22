@@ -27,6 +27,7 @@ create policy "profiles_admin_update"
 on profiles for update
 using (is_admin());
 
+
 create policy "profiles_admin_delete"
 on profiles for delete
 using (is_admin());
